@@ -7,14 +7,16 @@ import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
+import org.springframework.web.client.RestTemplate;
 
 @Service
-public class BBGClientService<T> 
+public class BBGClientRestBased<T> 
 {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
@@ -25,27 +27,40 @@ public class BBGClientService<T>
 	private AuthenticationService authenticationService;
 
 	
-/*	public List<T> getBBGData( List<Job> jobs) throws Exception
-	{
-		List<Job> outputList = new ArrayList<Job>();
-		
-		for(Job job: outputList)
-		{
-			
-			getBBGData(job.));
-		}
-		
-		return outputList;
-	}*/
-	
 	public List<T> getBBGData(String idType, String idValue) throws Exception
 	{
 		
 		log.info("******* GET Request to Fetch Complete Ratings for : " + idType + " *******");
 		
 		String BASE_URL = cache.getPropertyMapValue("BASE_URL");
+
 		
-		HttpResponse<JsonNode> response = null;
+		// HttpHeaders
+        HttpHeaders headers = new HttpHeaders();
+        
+        // Request to return JSON format
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("idType", idType);
+        headers.set("idValue", idValue);
+		
+        
+        // HttpEntity<String>: To get result as String.
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+ 
+        // RestTemplate
+        RestTemplate restTemplate = new RestTemplate();
+ 
+        // Send request with GET method, and Headers.
+        ResponseEntity<String> response = restTemplate.exchange(BASE_URL, //
+                											    HttpMethod.POST, 
+                											    entity, 
+                											    String.class);
+ 
+        String result = response.getBody();
+ 
+        System.out.println(result);
+		
+/*		HttpResponse<JsonNode> response = null;
 		List<T> ratingList = new ArrayList<T>();
 		
 		response = Unirest.post(BASE_URL)
@@ -62,10 +77,10 @@ public class BBGClientService<T>
 			log.info("Raw Size -> " + jsonArray.length());
 			//ratingList = parseJsonToJava(jsonArray, className);
 			log.info("Parsed Rating Size -> " + ratingList.size());
-		}
+		}*/
 		
 		log.info("******* GET Request Finished for : " + idType + " *******");
-		return ratingList;
+		return null;
 	}
 	
 	private List<T> parseJsonToJava(JSONArray jsonArray, Class<T> className) throws Exception{
@@ -75,6 +90,11 @@ public class BBGClientService<T>
 			list.add(parsedObject);*/
 		}
 		return list;
+	}
+	
+	public static void main(String args)
+	{
+		System.out.println("started");
 	}
 
 }

@@ -18,6 +18,9 @@ public class BBGServiceStarter implements CommandLineRunner
 	@Autowired
 	private BBGClientService client;
 	
+	@Autowired
+	private BBGClientRestBased clientRestBased;
+	
 	public static void main(String[] args) 
 	{
 		System.out.println("Starting");
@@ -55,7 +58,8 @@ public class BBGServiceStarter implements CommandLineRunner
        
 	     
 		String request ="";		
-		client.getBBGData("ID_ISIN", "US4592001014");
+		//client.getBBGData("ID_CUSIP", "123456789");
+		clientRestBased.getBBGData("ID_CUSIP", "123456789");
 
  /*       int i = 0;
         for (JobResult result : jobResults) {
