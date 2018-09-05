@@ -35,11 +35,21 @@ public class AuthenticationService
 			//authorizationMap.put("username", ramMarcCache.getPropertyMapValue("USER_NAME"));
 			//authorizationMap.put("password", ramMarcCache.getPropertyMapValue("PASSWORD"));
 
-			response = Unirest.post(BASE_URL + "/{namespace}")
-							  .header("accept", "text/plain")
-							  .routeParam("namespace", "apikey")
-							  .queryString(authorizationMap).asString();
+	        String req = "[\r\n" + 
+	        		"\r\n" + 
+	        		"  { \"idType\": \"ID_ISIN\", \"idValue\": \"US4592001014\" }\r\n" + 
+	        		"] ";
+			
+			response = Unirest.post(BASE_URL)
+							  .header("Content-Type", "text/plain")
+							  .body(req)
+							  .asString();
 
+			HttpResponse<JsonNode> jsonResponse  = Unirest.post(BASE_URL)
+					  .header("Content-Type", "text/plain")
+					  .body(req)
+					  .asJson();			
+			
 		}catch (Exception e) 
 		{
 			log.error("Error while generating API Key", e);

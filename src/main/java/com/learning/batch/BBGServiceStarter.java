@@ -40,40 +40,10 @@ public class BBGServiceStarter implements CommandLineRunner
 		
 		BBGServiceStarter app = new BBGServiceStarter();
 		
-		//authenticationService.generateApiKey();
-		
-		
-		List<Job> jobs = new ArrayList<Job>();
-		
-/*		 jobs.add(app.createJob("ID_WERTPAPIER", "851399").currency("USD"));
-	     jobs.add(app.createJob("ID_BB_UNIQUE", "EQ0010080100001000").currency("USD"));
-	     jobs.add(app.createJob("ID_SEDOL", "2005973").micCode("EDGX").currency("USD"));*/
-	     
-	     jobs.add(app.createJob("ID_ISIN", "US4592001014"));
 
-		
-	     
-       //List<JobResult> jobResults = client.getBBGData(jobs);
-       
-       
-	     
-		String request ="";		
-		//client.getBBGData("ID_CUSIP", "123456789");
 		clientRestBased.getBBGData("ID_CUSIP", "123456789");
 
- /*       int i = 0;
-        for (JobResult result : jobResults) {
-            i+=1;
-            System.out.println(String.format("Query #%d results\n", i));
-            System.out.println(result.toString());
-            System.out.println("\n");
-        }*/
-	     
 
-		
-		
-		//authenticationService.logout();
-		System.exit(0);
 	}
 	
 	

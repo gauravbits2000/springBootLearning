@@ -5,6 +5,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 public class testClass {
@@ -21,13 +23,17 @@ public class testClass {
         
         // Request to return JSON format
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("idType", "ID_SEDOL");
-        headers.set("idValue", "1234567");
+        //headers.set("idType", "ID_SEDOL");
+        //headers.set("idValue", "1234567");
 		
         
-        // HttpEntity<String>: To get result as String.
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
- 
+        String req = "[\r\n" + 
+        		"\r\n" + 
+        		"  { \"idType\": \"ID_ISIN\", \"idValue\": \"US4592001014\" }\r\n" + 
+        		"] ";
+
+        HttpEntity<?> entity = new HttpEntity<Object>(req, headers);
+        
         // RestTemplate
         RestTemplate restTemplate = new RestTemplate();
  
@@ -36,6 +42,9 @@ public class testClass {
                 											    HttpMethod.POST, 
                 											    entity, 
                 											    String.class);
+        
+      
+        
  
         String result = response.getBody();
  
