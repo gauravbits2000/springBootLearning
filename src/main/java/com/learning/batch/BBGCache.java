@@ -25,7 +25,7 @@ public class BBGCache
 
 	private void initializePropertyMap() 
 	{	
-		log.info("=====> Initializing RAM MARC Cache...........");	
+		log.info("=====> Initializing BBG-OS Cache...........");	
 		propertyMap.clear();
 		
 		
